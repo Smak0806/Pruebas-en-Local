@@ -55,6 +55,9 @@
 		if(is_array($array)){
 			foreach ($array as $key => $value) {
 				if($value=="") continue;
+				if($key=="header"){
+					echo "<h5>$value</h5>";
+				}
 				else
 					echo "<li><a>$value</a></li>";
 			}
@@ -62,13 +65,12 @@
 			echo $array;			
 	}
 
-	function dateGenerator(){
 
-
-
+	function imageGenerator($array, $arg){
+		
+			echo $array[$arg];
+		
 	}
-
-
 
 
 

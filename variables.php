@@ -16,7 +16,7 @@
 						
 						"css"=>"<link rel='stylesheet' href='styles.css'>",	//
 						
-						"link1"=>"",	//						
+						"script-js"=>"<script src='script.js' type='text/javascript' charset='utf-8' async defer></script>",	//						
 						
 						"link2"=>"",	//						 
 						
@@ -43,27 +43,28 @@
 
 	//<header> .banner [1]
 	$header_banners = array(
-						"banner_1" => "<h3>Banner 1 content (header)</h3>",	//
+						"banner_1" => date("F j, Y, g:i a") ."<br>IP Cliente:".$_SERVER['REMOTE_ADDR'],	// BANNER 1, FECHA E IP
 						"banner_2" => "<form class='form-inline'>
-				    <input class='form-control mr-sm-2' type='text' placeholder='Search'>
+				    <input class='form-control mr-sm-2' type='text' placeholder='Buscar...'>
 				    <button class='btn btn-outline-primary my-2 my-sm-0' type='submit'>Search</button>
-				</form>"	//
+				</form>"	//BANNER 2 (BUSCADOR)
 						);
 
 
 
 	//BARRA DE NAVEGACIÓN: index=>value
 	$navbar_link = 	array(
-					"home"=>"index.php", 	//
-					"about"=>"about.php",	//
-					"link1"=>"link1.php",	//
-					"link2"=>"link2.php",	//
-					"link3"=>"link3.php",	//
-					"contact"=>"contact.php"	//
+					"Inicio"=>"index.php", 	//
+					"About"=>"about.php",	//
+					"Drivers"=>"link1.php",	//
+					"Manual"=>"link2.php",	//
+					"Documentos excel"=>"link3.php",	//
+					"Contacto"=>"contact.php"	//
 					);
 
 	//ASIDE: index=>value 
 	$aside_link = array(
+					"header"=>"Nombre de Lista",//
 					"link1"=>"href 1", //
 					"link2"=>"href 2",	//	
 					"link3"=>"href 3",	//
@@ -84,6 +85,14 @@
 					"paragraph2"	=>	"<p>parrafo 2</p>",	//
 					"paragraph3"	=>	"<p>parrafo 3</p>",	//
 					);
+
+	//LISTA DE IMAGENES DE CONTAINER CENTRAL DE LA PAGINA
+	$images_list = array(
+					"image0"=>"images0", //IMAGEN IZQUIERDA
+					"image1"=>"images1", //IMAGEN MEDIO
+					"image2"=>"images2"  //IMAGEN DERECHA
+				);
+
 
 
 ?>

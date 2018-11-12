@@ -1,19 +1,51 @@
-body{
+html {
+  scroll-behavior: smooth;
+}
+
+aside{
 	background-color: #d9dce0;
+}
+
+header{
+	height:60px;
 }
 
 a{
 	transition: 0.3s;
 }
 
-header{
-	height: 4em;
-}
-
 nav ul a{
 	color: white;
+	height: 100%;
 }
 
 nav ul a:hover{
 	color: lightskyblue;
+}
+
+img[src='Graphicloads-Colorful-Long-Shadow-Book.png']{
+	height: 90%;
+	max-height: 120px;
+	max-width: 120px;
+}
+
+
+
+img[src="image0.png"], img[src="image1.png"], img[src="image2.png"]{
+	width: 100%;
+}
+
+img[src="social-icons.png"]{
+	height:100%;
+	padding: 2em;
+}
+
+img[src="footer.PNG"]{
+	width: 100%;
+	float: right;
+	padding: 1.5em;
+}
+
+.mainBanner_img{
+	width: 100%;
 }

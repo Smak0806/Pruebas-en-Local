@@ -11,29 +11,41 @@
 <div class="row col-12 p-0 m-0">
 	<div class="container col-12 p-0 m-0 ">
 	
-		<header id="header" class="row col-12 text-white bg-dark">
+		<header id="header" class="row col-12 p1 text-white align-items-center p-0 m-0">
 
-			
+			<div class="col-lg-2 col-sm-12 p-0 m-0 h-100 bg-success">
+				
+				<div class="col-lg-8 col-sm-6 float-left text-center">
+					<h4>
+						Driver Editor
+					</h4>
+				</div>
+					
+				<div class="col-lg-4 col-sm-6 m-0 p-0 float-right h-100 align-items-center">
+					<img src="logo.png" alt="logo" class="p-2 h-100">
+				</div>
 
-			<nav class="navbar col-md-6 col-sm-12 d-inline-flex">
+				
+			</div>
+
+			<nav class="col-lg-4 col-sm-12 p-0 m-0 h-100 navbar ">
 				<ul class="nav">
 					<?php navbarContentCreator($navbar_link);?>
 				</ul>
 			</nav>
 
-			<div class="col-md-3 col-sm-12 bg-success">
-				<?php headerBannerCreator($header_banners,"banner_1");?>
+			<div class="col-md-3 col-sm-12 p-0 m-0">
+					<?php headerBannerCreator($header_banners,"banner_1");?>
 			</div>
 									
-			<div class="col-md-3 col-sm-12">
-				<?php headerBannerCreator($header_banners,"banner_2");?>
-
+			<div class="col-md-3 col-sm-12 p-0 m-0">	
+					<?php headerBannerCreator($header_banners,"banner_2");?>
 			</div>
 			
 			
 		</header><!-- /header -->
 		
-		<aside class="col-md-2 col-sm-12 p-0 m-0 float-left">
+		<!--<aside class="col-md-2 col-sm-12 p-1 m-0 float-left">
 			
 			<div class="col-12">
 				<ul>
@@ -43,15 +55,15 @@
 
 			<div class="col-12">
 				<?php asideContentCreator($aside_content["content_1"]);?>
-			</div class="col-12">
+			</div>
+				
+			<div class="col-12">
 				<?php asideContentCreator($aside_content["content_2"]);?>
-			<div>
-			
 			</div>
 		
 		</aside>
 		
-		<div class="row col-md-10 col-sm-12 p-0 m-0 float-right">
+		<div class="row col-md-10 col-sm-12 p-1 m-0 float-right">
 			
 			<div class="col-md-3 p-4">
 				<p>
@@ -98,14 +110,17 @@
 		
 		</div>
 		
-		<footer>
+		<footer class="row col-md-12">
 			<div>
-				<div>
+				<div class="col-md-6 col-sm-12">
+					<span>Driver Editor&copy;</span>
 				</div>
-				<div>			
+				
+				<div class="col-md-6 col-sm-12">
+					<span>Elaborado por: Santiago Cabrera</span>
 				</div>	
 			</div>	
-		</footer>
+		</footer>-->
 
 
 	</div>
