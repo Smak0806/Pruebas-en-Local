@@ -1,0 +1,19 @@
+body{
+	background-color: #d9dce0;
+}
+
+a{
+	transition: 0.3s;
+}
+
+header{
+	height: 4em;
+}
+
+nav ul a{
+	color: white;
+}
+
+nav ul a:hover{
+	color: lightskyblue;
+}
