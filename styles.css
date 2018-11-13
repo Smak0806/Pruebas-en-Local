@@ -1,51 +1,60 @@
 html {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
-
 aside{
 	background-color: #d9dce0;
 }
-
-header{
-	height:60px;
-}
-
 a{
 	transition: 0.3s;
 }
-
+p{
+	margin: 0 auto;
+}
+.bold{
+	font-weight: 700;
+}
 nav ul a{
 	color: white;
 	height: 100%;
 }
-
 nav ul a:hover{
 	color: lightskyblue;
 }
-
 img[src='Graphicloads-Colorful-Long-Shadow-Book.png']{
 	height: 90%;
-	max-height: 120px;
-	max-width: 120px;
+	max-height: 110px;
+	max-width: 110px;
 }
-
 img[src="social-icons.png"]{
 	height:100%;
 	padding: 2em;
 }
-
 img[src="footer.PNG"]{
 	width: 100%;
 	float: right;
 	padding: 1.5em;
 }
-
+img[src="img1.jpg"]{
+	max-height: 260px;
+}
 .mainBanner_img{
 	width: 100%;
 	max-height: 220px;
 }
-
 #header_img{
-	background-image: url('header_climate.jpg'); 
+	background-image: url('header_climate.jpg');
 	height: 330px;
+}
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,900');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300i,400,700,900');
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+.roboto{
+	font-family: 'Roboto', sans-serif;
+}
+.playfairDisplay{
+	font-family: 'Playfair Display', serif;
+}
+.indieFlower{
+	font-family: 'Indie Flower', cursive;
+	font-size: 1.5em;
 }

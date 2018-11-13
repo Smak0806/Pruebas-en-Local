@@ -73,7 +73,15 @@
 	}
 
 
+	function contentGenerator($article){
+		
+		$content = file("parrafos/parrafo".$article.".txt");
 
+		foreach ($content as $key => $value) {
+			echo $value;
+		}
+
+	}
 
 
 
