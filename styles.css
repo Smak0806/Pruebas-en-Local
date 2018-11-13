@@ -29,12 +29,6 @@ img[src='Graphicloads-Colorful-Long-Shadow-Book.png']{
 	max-width: 120px;
 }
 
-
-
-img[src="image0.png"], img[src="image1.png"], img[src="image2.png"]{
-	width: 100%;
-}
-
 img[src="social-icons.png"]{
 	height:100%;
 	padding: 2em;
@@ -48,4 +42,10 @@ img[src="footer.PNG"]{
 
 .mainBanner_img{
 	width: 100%;
+	max-height: 220px;
+}
+
+#header_img{
+	background-image: url('header_climate.jpg'); 
+	height: 330px;
 }

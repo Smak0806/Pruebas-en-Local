@@ -57,7 +57,7 @@
 					"Inicio"=>"index.php", 	//
 					"About"=>"about.php",	//
 					"Drivers"=>"link1.php",	//
-					"Manual"=>"link2.php",	//
+					"Manual"=>"manual.php",	//
 					"Documentos excel"=>"link3.php",	//
 					"Contacto"=>"contact.php"	//
 					);
