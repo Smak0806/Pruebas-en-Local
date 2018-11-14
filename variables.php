@@ -48,8 +48,8 @@
 	$header_banners = array(
 						"banner_1" => date("F j, Y, g:i a") ."<br>IP Cliente:".$_SERVER['REMOTE_ADDR'],	// BANNER 1, FECHA E IP
 						"banner_2" => "<form class='form-inline'>
-				    <input class='form-control mr-sm-2' type='text' placeholder='Buscar...'>
-				    <button class='btn btn-outline-primary my-2 my-sm-0' type='submit'>Search</button>
+				    <input class='form-control mr-sm-2 p-2' type='text' placeholder='Buscar...'>
+				    <button class='btn btn-outline-primary p-2 my-2 my-sm-0' type='submit'>Search</button>
 				</form>"	//BANNER 2 (BUSCADOR)
 				);
 

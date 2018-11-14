@@ -55,7 +55,7 @@
 		<!-- CONTAINER AZUL DE LA PAGINA - MITAD DE LA PAGINA-->
 		<div class="col-12 m-0 p-2 bg-info text-white shadow roboto">
 			<h2 class="bold"><?php echo $content_title["titulo_parrafo5"];?></h2>
-			<p class="indieFlower">
+			<p class="indieFlower text-justify">
 				<?php contentGenerator("5"); ?>
 			</p>
 		</div>
