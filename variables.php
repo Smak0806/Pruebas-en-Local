@@ -48,8 +48,8 @@
 	$header_banners = array(
 						"banner_1" => date("F j, Y, g:i a") ."<br>IP Cliente:".$_SERVER['REMOTE_ADDR'],	// BANNER 1, FECHA E IP
 						"banner_2" => "<form class='form-inline'>
-				    <input class='form-control mr-sm-2 p-2' type='text' placeholder='Buscar...'>
-				    <button class='btn btn-outline-primary p-2 my-2 my-sm-0' type='submit'>Search</button>
+				    <input class='form-control col-lg-8 my-1 my-sm-0 col-sm-6 mr-sm-2 p-1' type='text' placeholder='Buscar...'>
+				    <button class='btn btn-outline-primary p-1 my-1 my-sm-0' type='submit'>Search</button>
 				</form>"	//BANNER 2 (BUSCADOR)
 				);
 
@@ -57,12 +57,10 @@
 
 	//BARRA DE NAVEGACIÓN: index=>value
 	$navbar_link = 	array(
-					"Inicio"=>"index.php", 	//
-					"About"=>"about.php",	//
-					"Drivers"=>"link1.php",	//
+					"Inicio"=>"index2.php", 	//
 					"Manual"=>"manual.php",	//
-					"Documentos excel"=>"link3.php",	//
-					"Contacto"=>"contact.php"	//
+					"Documentos"=>"docs.php",	//
+					"driverEditor"=>"drivereditor"	//
 				);
 
 	//ASIDE: INDEX LIST. index=>value 

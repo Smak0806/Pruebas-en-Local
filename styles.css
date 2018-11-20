@@ -58,3 +58,34 @@ img[src="img1.jpg"]{
 	font-family: 'Indie Flower', cursive;
 	font-size: 1.5em;
 }
+
+.essempio{
+	width: 100%;
+	border: 1px solid black;
+	margin: 1em 0em;
+}
+
+.essempio td, th{
+	padding: 0.3em;
+	border: solid 1px;
+}
+
+.essempio th{
+	background-color: lightgray;
+	font-weight: bolder; 
+}
+
+.scroll{
+	
+	margin: 0 auto;
+	overflow-x: auto;
+}
+
+.vertical-table th{
+	width:  15%;
+}
+
+.vertical-table td{
+	width: 35%;
+}
+

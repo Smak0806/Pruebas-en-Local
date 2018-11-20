@@ -1,0 +1,14 @@
+{
+	"H41":"Presencia sonda cámara",
+	"H42":"Presencia sonda evaporador",
+	"H43":"Presencia sonda 3",
+	"H45":"Modalidad de entrada en descarche en caso de aplicaciones con doble evaporador",
+	"H00":"Selección tipo de entrada analógica NTC/PTC",
+	"H02":"Tiempo de activación funciones desde teclado",
+	"H06":"Tecla o Digital Input aux/luz activos con instrumento en off",
+	"H08":"Modo funcionamiento en stand-by",
+	"H25":"Configuración del zumbador",
+	"CA1":"Calibración sonda cámara",
+	"CA2":"Calibración sonda evaporador",
+	"CA3":"Calibración sonda"
+}

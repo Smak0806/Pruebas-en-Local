@@ -1,0 +1,633 @@
+
+<h2>GENERACIÓN DE DRIVERS PARA COMPACT TOUCH Y TMS</h2>
+<h3>MANUAL DE SINTAXIS</h3>
+<h5>Introducción</h5>
+<p>Un driver de la COMPACT TOUCH o del TMS se basa en un fichero de texto plano, que no precisa de ningún tipo de compilado. La sintaxis del nombre de
+archivo es fija, expresándose de la siguiente forma:</p>
+<h4 class="col-10 bg-info text-white m-0 p-2">&lt;fabricante&gt;.&lt;dispositivo&gt;.&lt;versión&gt;</h4><br>
+<p>De este modo, la versión 5 del driver del RTX 600V de Eliwell daría lugar al nombre de fichero:</p>
+<h4 class="col-10 bg-info text-white m-0 p-2">Eliwell.RTX600V.5</h4><br>
+<p>El formato de un driver es un CSV que emplea el punto y coma (;) como separador de columnas. Asimismo, el driver cuenta con diccionarios que traducen los
+nombres de las variables a distintos idiomas. Dichos diccionarios son ficheros JSON. Hay dos diccionarios a emplear: uno general para todos los drivers con
+<i>&lt;código de idioma&gt;.json</i> como nombre de fichero y otro específico del dispositivo con el nombre de fichero &lt;dispositivo&gt;_&lt;código de idioma&gt;.json. De este
+modo, el diccionario genérico en castellano se llamaría es-ES.json y en inglés (británico y estadounidense, respectivamente) <i>en-GB.json</i> o <i>en-US.json</i>; mientras
+que los diccionarios específicos del RTX 600V en los mismos idiomas serían <i>RTX600V_es-ES.json</i>, <i>RTX600V_en-GB.json</i> y <i>RTX600V_en-US.json.</i>
+
+<h5>Partes de un driver</h5>
+<p>Un driver se compone de tres partes: comentarios, la instrucción ACK y los recursos y parámetros.
+
+Excepto los comentarios, el resto de partes son instrucciones que siguen una sintaxis parecida:</p>
+
+<h4 class="col-10 bg-info text-white m-0 p-2">Variable;Read;513;1;Int16_ML;FF_FF;1;°C;AI27(1;1;continuous;-1;;;Off;-1;;;;;&lt;-670; >3200;@33018&gt;0</h4><br>
+<p>Debido a que estas instrucciones se presentan en formato CSV, tomando los puntos y comas como delimitadores de columnas e ignorando aquellas que no
+contienen nada (dado que su espacio está reservado), es fácil expresar una instrucción en formato tabla.</p>
+
+<table class="essempio">
+	<tr>
+		<td>Variable </td>
+		<td>Read </td>
+		<td>513 </td>
+		<td>1 </td>
+		<td>Int16_ML </td>
+		<td>FF_FF</td>
+		<td>1</td>
+		<td>°C </td>
+		<td>AI27(1 </td>
+		<td>1</td>
+		<td>continuous </td>
+		<td>-1</td>
+		<td>Off </td>
+		<td>-1 </td>
+		<td><-670</td>
+		<td>>3200 </td>
+		<td>@33018>0</td>
+	<tr>
+</table>
+
+<h5>Comentarios</h5>
+<p>Los comentarios vienen precedidos por el símbolo almohadilla (#) y son líneas explicativas que no tienen repercusión en el funcionamiento del driver. Su
+función es aclarar partes del documento o invalidar instrucciones que ya no deben ser usadas.<p>
+<h6 class="col-10 bg-info text-white m-0 p-2">#Esto es un comentario<br>
+Variable;Read;513;1;Int16_ML;FF_FF;1;°C;AI27(1;1;continuous;-1;;;Off;-1;;;;;<-670;>3200;@33018>0 #Un comentario puesto tras una instrucción </h6><br>
+<h5>ACK</h5>
+<p>El ACK es la instrucción que sirve para el reconocimiento del dispositivo. El propósito de esta instrucción, que siempre debe ser la primera presente en el
+fichero del driver, es describir el método por el que la Compact Touch o el TMS distingan el instrumento de acuerdo a una serie de características identificativas.
+Este reconocimiento se puede realizar de dos maneras: o bien mediante la función 43 de ModBus, o mediante la función 3, leyendo un registro concreto cuyo
+valor sea fijo y permita identificar adecuadamente al dispositivo.</p>
+
+<p>Con el <b>comando 43</b>:<p>
+
+<table class="essempio">
+	<tr>
+		<th>Recurso</th>
+		<th>Comando</th>
+		<th>Direccion</th>
+		<th>Word</th>
+		<th>Conversión</th>
+		<th>Máscara</th>
+		<th> - </th><!--cuadro en blanco-->
+		<th> - </th><!--cuadro en blanco-->
+		<th>ACK</th>
+		<th>Valor</th>
+		<th>MAXW</th>
+		<th>Max. peticiones</th>
+	</tr>
+	<tr>
+		<td>Variable</td>
+		<td>43_04_02</td>
+		<td>16</td>
+		<td>11</td>
+		<td>4</td>
+		<td>FF_FF</td>
+		<td> - </td><!--cuadro en blanco-->
+		<td> - </td><!--cuadro en blanco-->
+		<td>ACK43</td>
+		<td>01FD</td>
+		<td>MAXW</td>
+		<td>100</td>
+	</tr>
+	<caption>Los guiones (-) de la tabla representan espacios vacíos</caption>
+</table>
+
+
+<p>El campo “Comando” describe los parámetros de la función 43 que se emplea. Su sintaxis es:<p>
+<h4 class="col-10 bg-info text-white m-0 p-2">43_&lt;Código de identificación&gt;_&lt;objeto&gt;</h4><br>
+<p>El código de identificación se encuentra especificado en la documentación de cada instrumento. Cada código establece una serie de información identificativa
+que puede obtenerse y que a su vez contiene distintos objetos. El código 03 contiene tres objetos, siendo el 00 el código de vendedor, el 01 el POLI y el 02 la
+máscara y el firmware.</p>
+
+<p>A bajo nivel, el comando que sería enviado por ModBus, según cómo se especifica aquí, sería el siguiente (expresado en hexadecimal):</p>
+
+<table class="essempio">
+	<tr>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+	</tr>
+	<tr>
+		<td>01</td>
+		<td>2b</td>
+		<td>0E</td>
+		<td>04</td>
+		<td>02</td>
+	</tr>
+</table>
+
+<p>Donde:</p>
+
+	<ul>
+		<li>• 01 (byte 1) – Dirección ModBus</li>
+		<li>• 2B (byte 2) – Comando ModBus (43 en decimal)</li>
+		<li>• 0E (byte 3) – Tipo MEI (13 = CanOpen, 14 = Identificación)</li>
+		<li>• 04 (byte 4) – Código de identificación del dispositivo (01, 02, 03 o 04)</li>
+		<li>• 02 (byte 5) – Objeto</li>
+	</ul>
+
+<p>La respuesta ModBus sería la siguiente:</p>
+
+<table class="essempio">
+	<tr>
+		<th>1 </td> 
+		<th>2 </td> 
+		<th>3 </td> 
+		<th>4 </td> 
+		<th>5 </td> 
+		<th>6 </td> 
+		<th>7 </td> 
+		<th>8 </td> 
+		<th>9 </td> 
+		<th>10</td>  
+		<th>11</td>  
+		<th>12</td>  
+		<th>13</td>  
+		<th>14</td>  
+		<th>15</td>  
+		<th>16</td>  
+		<th>17</td>  
+		<th>18</td>  
+		<th>19</td>  
+		<th>20</td>  
+		<th>21</td> 
+	<tr>
+
+	<tr>
+		<td>01</td>
+		<td>2B</td>
+		<td>0E</td>
+		<td>04</td>
+		<td>81</td>
+		<td>00</td>
+		<td>00</td>
+		<td>01</td>
+		<td>02</td>
+		<td>09</td>
+		<td>30</td>
+		<td>31</td>
+		<td>46</td>
+		<td>44</td>
+		<td>5F</td>
+		<td>30</td>
+		<td>30</td>
+		<td>31</td>
+		<td>45</td>
+		<td>90</td>
+		<td>98</td>
+	</tr>
+</table>
+
+<p>Donde:</p>
+
+<br>
+
+<ul>
+	<li>• 01 (byte 1) – Dirección ModBus</li>
+	<li>• 2B (byte 2) – Comando ModBus</li>
+	<li>• 0E (byte 3) – Tipo MEI</li>
+	<li>• 04 (byte 4) – Código de identificación del dispositivo</li>
+	<li>• 81 (byte 5) – Nivel de conformidad</li>
+	<li>• 00 (byte 6) – Si quedan más paquetes por llegar</li>
+	<li>• 00 (byte 7) – ID del siguiente objeto</li>
+	<li>• 01 (byte 8) – Número de objetos</li>
+	<li>• 02 (byte 9) – ID de objeto</li>
+	<li>• 09 (byte 10) – Longitud del objeto (número de bytes que lo componen)</li>
+	<li>• 30 31 46 44 5F 30 30 31 45 (bytes 11 a 19) – Objeto solicitado, que es una cadena de códigos ASCII que denotan la máscara y el firmware.</li>
+	<li>• 90 98 (bytes 20 y 21) – CRC</li>
+</ul>
+
+<p>Analizando el objeto solicitado y convirtiendo a ascii (se puede hacer en la siguiente web: https://www.rapidtables.com/convert/number/hex-to-ascii.html):<p>
+
+<table class="essempio">
+	<tr>
+		<th>Hexadecimal</th>
+		<td>30</td>
+		<td>31</td>
+		<td>46</td>
+		<td>44</td>
+		<td>5F</td>
+		<td>30</td>
+		<td>30</td>
+		<td>31</td>
+		<td>45</td>
+	<tr>
+
+	<tr> 
+		<th>ASCII</th>
+		<td>0</td>
+		<td>1</td>
+		<td>F</td>
+		<td>D</td>
+		<td>_</td>
+		<td>0</td>
+		<td>0</td>
+		<td>1</td>
+		<td>E</td>
+	<tr>
+</table>
+
+
+<p>El resultado es una cadena: “01FD_001E”, que nos da la máscara y firmware, respectivamente, del dispositivo y que en este caso corresponden a los del RTX
+600V.
+Llegados a este punto se puede observar que la primera parte, “01FD”, es el valor a leer por el comando ACK del driver, como se puede ver en el campo
+“Valor”, que comienza en el byte 11, como se puede ver en el campo “Word” y que se compone de 4 bytes, como también queda expresado en el campo
+“Conversión”.<br><br>
+Y con el <b>comando 3</b>:</p>
+
+<table class="essempio">
+	<tr>
+		<th>Recurso</th>
+		<th>Comando</th>
+		<th>Dirección</th>
+		<th>Nº Words</th>
+		<th>Conversión</th> 
+		<th>Máscara</th>
+		<th>  </th> 
+		<th>  </th>
+		<th>ACK </th>
+		<th>Valor</th>
+		<th> MAXW</th> 
+		<th>Máx. Peticiones</th>
+	</tr>
+
+	<tr>
+		<td>Variable </td>
+		<td>Read</td>
+		<td>10423 </td>
+		<td>1 </td>
+		<td>Int16_ML </td>
+		<td>FF_FF </td>
+		<td>0 </td>
+		<td>num </td>
+		<td>ACK </td>
+		<td>9002 </td>
+		<td>MAXW </td>
+		<td>100</td>
+	</tr>
+</table>
+
+
+<p>En este caso, el comando es más sencillo: se lee el registro especificado en el campo “Dirección” (en este caso, el registro 10423), que se compone de 1 word,
+y se espera leer el valor 9002 para identificar al dispositivo como tal.</p>
+
+<p>Mención especial merece el campo “Máx. Peticiones”: siempre que sea posible, los recursos se leerán en bloque mientras las direcciones de memoria sean
+consecutivas; de este modo se conseguiría reducir el número de peticiones hechas. El campo “Máx. Peticiones” define el número máximo de registros que
+pueden ser solicitados en bloque. No se recomienda exceder los 100.</p>
+
+
+<h5>Recursos y parámetros</h5>
+<p>El cuerpo básico de un driver se compone de las peticiones de recursos y parámetros y, en menor medida, de comandos. Pero, ¿cuál es la diferencia entre
+ellos?</p>
+<ul>
+
+<li>• Recursos: registros del dispositivo que son representativos del estado actual del mismo. Son de sólo lectura y no se puede escribir sobre ellos.
+Entradas/salidas digitales, entradas/salidas analógicas, estados y alarmas.</li>
+
+<li>• Parámetros: registros del dispositivo que son tanto de lectura y escritura y que permiten la configuración del dispositivo. Por ejemplo, la consigna de
+temperatura o el número de compresores.</li>
+
+<li>• Comandos: registros que, al escribir sobre ellos, activan de manera manual una función del propio dispositivo. Por ejemplo, encendido/apagado de
+luces, activación manual del desescarche o el stand-by del dispositivo.</li>
+
+
+<p>La estructura de los recursos, parámetros y comandos es exactamente la misma y se describe en el siguiente ejemplo:</p>
+<h6 class="col-10 bg-info text-white m-0 p-2">Variable;Read;513;1;Int16_ML;FF_FF;1;°C;AI27(1;1;continuous;-1;;;Off;-1;;;;;&lt;-670;&gt;3200;@33018&gt;0</h6>
+<p>Como se ha comentado anteriormente, hay determinadas columnas que están vacías y están reservadas. Obviándolas, la estructura sería la siguiente:
+</p>
+
+<div class="scroll col-10 p-0 m-0">
+	<table class="essempio">
+		<tr>
+			<th>Tipo </th>
+			<th>Cmd </th>
+			<th>Dir. </th>
+			<th>Núm. Words</th>
+			<th>Conversión </th>
+			<th>Máscara </th>
+			<th>PD </th>
+			<th>UM </th>
+			<th>Varname </th>
+			<th>Formato </th>
+			<th>Modo lectura</th>
+			<th>Periodo lectura</th>
+			<th>Modo escritura</th>
+			<th>Periodo escritura</th>
+			<th>Mín.</th>
+			<th>Máx.</th>
+			<th>Condición existencia</th>
+		</tr>
+
+		<tr>
+			<td>Variable </td>
+			<td>Read </td>
+			<td>513 </td>
+			<td>1 </td>
+			<td>Int16_ML </td>
+			<td>FF_FF </td>
+			<td>1 </td>
+			<td>°C </td>
+			<td>AI27(1 </td>
+			<td>1 </td>
+			<td>continuous </td>
+			<td>-1 </td>
+			<td>Off </td>
+			<td>-1 </td>
+			<td><-670 </td>
+			<td>>3200 </td>
+			<td>@33018&gt;0</td>
+		</tr>
+	</table>
+</div>
+
+<p>En la página siguiente se describe cada campo.</p>
+
+<table class="essempio vertical-table">
+	
+	<tr>
+		<th>
+			Tipo
+		</th>
+		<td> 
+			<p>Tipo del objeto. Puede tomar los siguientes valores:</p>
+			<ul>
+				<li>• Variable: recurso. Se registra periódicamente.
+				Recomendado para entradas/salidas analógicas y
+				estados.</li>
+				<li>• Status_Dig: recurso. Se registra periódicamente y
+				en el momento en el que cambia de estado.
+				Recomendado para entradas/salidas digitales.</li>
+				<li>• Alarm: recurso. Denota una alarma que se activará
+				si en el registro leído hay un número distinto de 0,
+				y permanecerá inactiva en caso contrario.</li>
+				<li>• Action: comando</li>.
+				<li>• Parameter: parámetro.</li>
+			</ul>
+		</td>
+
+		<th>
+			Máscara
+		</th>
+		<td>
+			<p>Máscara de bits que se aplicará sobre los datos, expresada
+			como números hexadecimales separados por guiones
+			bajos (_). Por ejemplo: FF_FF, 00_01, 03_00, FF_FF_FF_FF.
+			Según los bits que deseen obtenerse del registro.
+			Si se leyera el valor hexadecimal 04A5 (1189 en decimal) y
+			se le aplicara la máscara 00_0F, el resultado sería 0005 (5
+			en decimal).
+			Si se le añade el prefijo “B_”, el valor obtenido tras aplicar
+			la máscara se transforma en booleano, de modo que en el
+			ejemplo anterior, con la máscara B_00_0F, el valor
+			devuelto sería 1 (true). Si el contenido del registro hubiera
+			sido 04A0, entonces el valor devuelto sería 0 (false).</p>
+		</td>
+	</tr>
+	
+	<tr>
+		<th>Cmd</th>
+		<td>
+			<p> Tipo de comando. Cómo se va a leer el registro:</p>
+			<ul>
+				<li>• Read: función 3 de ModBus. El más usado.</li>
+				<li>• Read4: función 4 de ModBus.</li>
+				<li>• Write: función 6 de ModBus.</li>
+				<li>• Write16: función 16 de Modbus. El más usado.</li>
+			</ul>
+		</td>
+
+		<th>
+			PD
+		</th>
+		<td>
+			<p>Número de decimales que contiene el registro. Por
+			ejemplo, si se leyera un 301 y PD = 1, en realidad se
+			interpretaría como un 30.1, y si PD = 2, sería un 3.01.</p>
+		</td>
+	</tr>
+	
+	<tr>
+		<th>
+			Dir
+		</th>
+		<td>
+			Dirección del registro a leer. 
+		</td>
+	
+	
+		<th>
+			UM
+		</th>
+		 <td>
+		 	Unidad de medida.
+		 </td>
+	</tr>
+
+	<tr>
+		<th>
+			Núm. Words
+		</th>		
+		<td>
+			Número de words de 16 bits a leer. Varname Nombre del recurso. Ver el siguiente apartado.
+		</td>
+		<th>
+			Varname
+		</th> 
+		<td>
+			Nombre del recurso. Ver el siguiente apartado.
+		</td>
+	</tr>
+
+	<tr>
+		<th>
+			Conversión
+		</th>
+		
+		<td>
+			<p>La conversión de los datos. Puede tomar estos valores:</p>
+			<ul>
+				<li>• Int8: entero de 8 bits.</li>
+				<li>• Int16_ML: entero de 16 bits. El más usado.</li>
+				<li>• Int16_LM: entero de 16 bits intercambiado.</li>
+				<li>• Int32_MwLw_MbLb: entero de 32 bits.</li>
+				<li>• Int32_MbLb_MwLw: entero de 32 bits intercambiado.</li>
+				<li>• Float32_BE: Coma flotante de 32 bits.</li>
+				<li>• Float32_LE: Coma flotante de 32 bits</li>
+				intercambiado.</li>
+				<li>• Int64: Entero de 64 bits.</li>
+			</ul>
+		</td>
+	
+
+		<th>
+			Formato 
+		</th>
+		<td>
+			<p>Suele tener el mismo valor que el punto decimal. Muestra
+			cómo se representa un número decimal, el número de
+			decimales que mostrará.<p>
+		</td>
+	</tr>
+
+
+<tr>
+	<th>
+		Modo lectura 
+	</th>
+	<td>
+		De qué modo se leerá el recurso.
+		<ul>
+			<li>• continuous: se lee de manera continua.</li>
+			<li>• periodic: se lee cada cierto tiempo. Se utiliza con
+		los parámetros.</li>
+	</td>
+	<th>
+		Mín. 
+	</th>
+	<td>
+		Valor mínimo que puede tomar el recurso. No afecta a los parámetros, comandos ni alarmas.
+	</td>
+</tr>
+
+<tr>
+	<th>
+		Periodo lectura 
+	</th>
+	<td>
+		Periodo en el que se realiza la lectura. Los valores por
+		defecto son “-1” en el caso de que el modo de lectura sea
+		“continuous” y “5” en caso de que sea “periodic”.
+	</td>
+	<th>
+		Máx, 
+	</th>
+	<td>
+		Valor máximo que puede tomar el recurso. No afecta a los
+		parámetros, comandos ni alarmas.
+	</td>
+</tr>
+
+
+<tr>
+	<th>
+		Modo escritura 
+	</th>
+	<td>De qué modo se realizará la escritura del recurso:
+		• Off: registro de solo lectura. Se utiliza con los recursos.
+		• change: se escribe cuando se solicita. Se utiliza con los parámetros y los comandos.
+	</td>
+
+	<th rowspan="2">
+		Condición existencia
+	</th>
+	<td rowspan="2">
+		Es la condición que debe cumplirse para que se considere
+	que el registro en cuestión existe y debe ser leído. Si la
+	condición no se cumple en el momento de hacer el
+	reconocimiento de red, la condición es desechada. La
+	condición más básica es “Y” (el recurso existe) o “N” (el
+	recurso no existe). Los parámetros sólo pueden tomar esas
+	condiciones.
+	Además de “Y” o “N”, una condición puede estar en
+	función del valor de uno o más parámetros, a los que se
+	denotará como @<dirección del parámetro>.
+	De este modo, si la condición de existencia de un recurso
+	es que el parámetro “HDP”, que está en la dirección 3562,
+	sea igual a 2, se expresaría del siguiente modo:
+	@3562==2
+	Si además precisara que el parámetro FCq en la dirección
+	8795 fuera mayor que 0:
+	@3562==2 && @8795>0
+	Es posible crear condiciones más complejas y más largas
+	empleando paréntesis, números negativos y operadores
+	como and (&&) y or (||) y comparadores como igual que
+	(==), distinto de (!=), mayor que (>), menor que (<), mayor
+	o igual que (>=) o menor o igual que (<=).
+	Es importante notar que sólo se puede emplear parámetros
+	en una condición de existencia.
+	</td>
+</tr>
+<tr>
+	<th>Periodo escritura</th>
+	<td>Cuándo se escribe. El valor por defecto es “-1” siempre,
+	salvo en el caso de los comandos, en los que el valor
+corresponde al valor entero decimal que deba escribirse en
+el registro para activar el comando.</td>
+</tr>
+
+</table>
+
+<h5>Varname</h5>
+<p>El varname requiere un apartado propio. Debe ser un nombre que identifique al recurso, comando o parámetro en cuestión de manera unívoca y no debe
+incluir espacios, comas ni guión bajo (_), pero sí que puede incluir letras (mayúsculas y minúsculas), números, guión medio (-) y punto (.).</p>
+<p>Los varnames luego son traducidos por los diccionarios. En el caso de los parámetros, estos varnames son sencillos, pero en el caso de los recursos y comandos,
+toman la forma de un código concreto seguido, si es necesario, de un paréntesis abierto y una serie de valores separados por comas y que se sustituirán en la
+traducción: <código>(<valor 1>, <valor 2>, <valor 3>, etc…</p>
+<p>Los diccionarios, en el caso de los recursos, tienen fijados unos códigos establecidos, que se conforman de un prefijo y de un número identificativo:</p>
+<ul>
+	<li>• AIxx: entrada analógica</li>
+	<li>• AOxx: salida analógica</li>
+	<li>• DIxx: entrada digital</li>
+	<li>• DOxx: salida digital</li>
+	<li>• DSxx: estado digital</li>
+	<li>• ASxx: estado analógico</li>
+	<li>• ALxx: alarma</li>
+	<li>• CMxx-x: comando</li>
+</ul>
+
+<br>
+
+	<p>De este modo, supongamos que tenemos un diccionario con estas dos definiciones:</p>
+
+<code>	
+{<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;"AL00": "Alarma",<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;"AI00": "Sonda $1",<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;"AI01": "Sonda temperatura $1 compresor $2",<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;"CM01-1" : "Encender luces",<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;"CM01-2" : "Apagar luces"<br>
+}<br>
+</code>
+
+
+<p>Teniendo dicho diccionario, los siguientes varnames se traducirían así:</p>
+<ul>
+	<li>• “AL00”: Alarma</li>
+	<li>• “AL00(1”: Alarma</li>
+	<li>• “AI00(3”: Sonda 3</li>
+	<li>• “AI00”: Sonda</li>
+	<li>• “AI01(2,4”: Sonda temperatura 2 compresor 4</li>
+	<li>• “AI01(2”: Sonda temperatura 2 compresor</li>
+	<li>• “AI00(3,6”: Sonda 3</li>
+	<li>• “AI01(2,4,9”: Sonda temperatura 2 compresor 4</li>
+	<li>• “CM01-1”: Encender luces</li>
+	<li>• “CM01-2”: Apagar luces</li>
+</ul>
+<p>Como se puede ver, $1 se sustituiría por el primer valor puesto tras el paréntesis, $2 por el segundo, y así sucesivamente, ignorándose el resto de valores.
+Esto permite, no obstante, poder cumplir la norma de que todos los varnames deben ser diferentes, lo que hace que, por ejemplo, pudieran crearse distintos
+“AI00(1” con distinta unidad de medida o distinto punto decimal, identificándolos como “AI00(1,1”, “AI00(1,2”, “AI00(1,3”, etc.</p>
+
+<h5>Ejemplos</h5>
+	<p>Ejemplo de una entrada analógica:<p>
+
+		<h6 class="col-12 bg-info text-white m-0 p-2">Variable;Read;514;1;Int16_ML;FF_FF;1;°C;AI27(2;1;continuous;-1; ; ; Off;-1; ; ; ; ;<-670;&gt;3200;@33020&gt;0 && @33016&gt;0</h6>
+	
+	<p>Ejemplo de una entrada digital:</p>
+	
+		<h6 class="col-12 bg-info text-white m-0 p-2">Status_Dig;Read;5123;1;Int16_ML;B_FF_FF;0;bool;DI10(2;0;continuous;0; ; ;Off;-1; ; ; ; ; ; ;@33016&gt;0</h6>
+	
+	<p>Ejemplo de una alarma:</p>
+
+		<h6 class="col-12 bg-info text-white m-0 p-2">Alarm;Read;1551;1;Int16_ML;00_01;0;num;AL8;0;continuous;-1;;;Off;-1; ; ; ; ; ; ;Y</h6>
+
+	<p>Ejemplo de un comando:</p>
+		
+		<h6 class="col-12 bg-info text-white m-0 p-2">Action;Write;2571;1;Int16_ML;FF_FF;0;num;CM12-1;0; ; ; ; ;change;1; ; ; ; ; ; ;Y</h6>
+
+	<p>Ejemplo de un parámetro:</p>
+		
+		<h6 class="col-12 bg-info text-white m-0 p-2">Parameter;Write16;32784;1;Int16_ML;FF_FF;0;num;L08;0;periodic;5; ; ;change;-1; ; ; ; ; ; ;Y</h6>
+
+
+
+
+</div>

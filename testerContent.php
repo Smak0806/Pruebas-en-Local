@@ -1,15 +1,14 @@
-<!-- CONTENIDO DE LA PAGINA: Que tendrá de ancho 9/12 para dejar 3/12 al ASIDE-->
 <div class="row col-lg-9 float-right m-0 p-0">
 	
 	<div class="row col-lg-12 col-xs-12 p-0 m-0">
 		<!-- BOTONES DEL TOPE DE LA PAGINA -->
-		<div class="row col-lg-12 col-sm-12 p-2 m-0 d-flex align-content-center justify-content-center ">
-			<button type="button" class="btn btn-lg btn-secondary my-2 mr-1">Secondary</button>
-			<button type="button" class="btn btn-lg btn-secondary my-2 mr-1">Secondary</button>
-			<button type="button" class="btn btn-lg btn-secondary my-2 mr-1">Secondary</button>
+		<div class="row col-lg-12 col-sm-12 p-2 m-3 d-flex align-content-center justify-content-center ">
+			<button type="button" class="btn btn-lg btn-secondary ml-1 mr-1">Secondary</button>
+			<button type="button" class="btn btn-lg btn-secondary ml-1 mr-1">Secondary</button>
+			<button type="button" class="btn btn-lg btn-secondary ml-1 mr-1">Secondary</button>
 			<div class="btn-group">
-				<button type="button" class="btn btn-lg btn-secondary my-2">Dropdown</button>
-				<button type="button" class="btn btn-lg btn-secondary my-2 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button type="button" class="btn btn-lg btn-secondary ml-1">Dropdown</button>
+				<button type="button" class="btn btn-lg btn-secondary mr-1 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only">Toggle Dropdown</span>
 				</button>
 				<div class="dropdown-menu">
@@ -19,7 +18,7 @@
 			</div>
 		</div>
 		<div class="row col-lg-12 p-0 m-0">
-			<div class="col-lg-8 col-sm-6 pt-4">
+			<div class="col-lg-9 col-sm-6 pt-4">
 				<!--ZONA TITULAR DE LA IMAGEN: Titulo y pequeña descripcion. Añadir un slider de fotos -->
 				<h1 class="col-12 text-center">Titulo de la pagina</h1>
 				<p class="col-8">
@@ -100,7 +99,7 @@
 		
 		<div class="col-lg-4 col-xs-12 p-4">
 			<div class="col-10 p-2 mb-2 d-flex justify-content-center">
-				<img class="mainBanner_img col-lg-10 col-sm-6" src="<?php imageGenerator($images_list, 'image0');?>.png" alt="image">
+				<img class="mainBanner_img col-sm-8" src="<?php imageGenerator($images_list, 'image0');?>.png" alt="image">
 			</div>
 			<h5><?php echo $content_title["titulo_parrafo10"];?></h5>
 			<p> 
@@ -111,7 +110,7 @@
 		<!--CONTAINERS INFERIORES DE LA PAGINA: contiene 3 columnas en las que habrá un parrafo y una imagen. -->
 		<div class="col-lg-4 col-xs-12 p-4">
 			<div class="col-10 p-2 mb-2 d-flex justify-content-center">
-				<img class="mainBanner_img col-lg-10 col-sm-6" src="<?php imageGenerator($images_list, 'image1');?>.png" alt="image">
+				<img class="mainBanner_img col-sm-8" src="<?php imageGenerator($images_list, 'image1');?>.png" alt="image">
 			</div>
 			<h5><?php echo $content_title["titulo_parrafo11"];?></h5>
 			<p>
@@ -121,7 +120,7 @@
 		
 		<div class="col-lg-4 col-xs-12 p-4">
 			<div class="col-10 p-2 mb-2 d-flex justify-content-center">
-				<img class="mainBanner_img col-lg-10 col-sm-6" src="<?php imageGenerator($images_list, 'image2');?>.png" alt="image">
+				<img class="mainBanner_img col-sm-8" src="<?php imageGenerator($images_list, 'image2');?>.png" alt="image">
 			</div>
 			<h5><?php echo $content_title["titulo_parrafo12"];?></h5>
 			<p>

@@ -1,0 +1,87 @@
+<h2>GENERACIÓN DE DRIVERS PARA COMPACT TOUCH Y TMS</h2>
+<h3>MANUAL DE SINTAXIS</h3>
+<h5>Introducción<h5>
+<p>Un driver de la COMPACT TOUCH o del TMS se basa en un fichero de texto plano, que no precisa de ningún tipo de compilado. La sintaxis del nombre de
+archivo es fija, expresándose de la siguiente forma:</p><br>
+<h4>&lt;fabricante&gt;.&lt;dispositivo&gt;.&lt;versión&gt;</h4><br>
+<p>De este modo, la versión 5 del driver del RTX 600V de Eliwell daría lugar al nombre de fichero:</p>
+<h4>Eliwell.RTX600V.5</h4><br>
+<p>El formato de un driver es un CSV que emplea el punto y coma (;) como separador de columnas. Asimismo, el driver cuenta con diccionarios que traducen los
+nombres de las variables a distintos idiomas. Dichos diccionarios son ficheros JSON. Hay dos diccionarios a emplear: uno general para todos los drivers con
+<i>&lt;código de idioma&gt;.json</i> como nombre de fichero y otro específico del dispositivo con el nombre de fichero &lt;dispositivo&gt;_&lt;código de idioma&gt;.json. De este
+modo, el diccionario genérico en castellano se llamaría es-ES.json y en inglés (británico y estadounidense, respectivamente) en-GB.json o en-US.json; mientras
+que los diccionarios específicos del RTX 600V en los mismos idiomas serían RTX600V_es-ES.json, RTX600V_en-GB.json y RTX600V_en-US.json.
+
+<h5>Partes de un driver</h5>
+<p>Un driver se compone de tres partes: comentarios, la instrucción ACK y los recursos y parámetros.
+
+Excepto los comentarios, el resto de partes son instrucciones que siguen una sintaxis parecida:</p>
+
+<h4>Variable;Read;513;1;Int16_ML;FF_FF;1;°C;AI27(1;1;continuous;-1;;;Off;-1;;;;;&lt;-670; >3200;@33018&gt;0</h4><br>
+<p>Debido a que estas instrucciones se presentan en formato CSV, tomando los puntos y comas como delimitadores de columnas e ignorando aquellas que no
+contienen nada (dado que su espacio está reservado), es fácil expresar una instrucción en formato tabla.</p>
+
+<table class="esempio"><tr>
+<td>Variable </td>
+<td>Read </td>
+<td>513 </td>
+<td>1 </td>
+<td>Int16_ML </td>
+<td>FF_FF</td>
+<td>1</td>
+<td>°C </td>
+<td>AI27(1 </td>
+<td>1</td>
+<td>continuous </td>
+<td>-1</td>
+<td>Off </td>
+<td>-1 </td>
+<td><-670</td>
+<td>>3200 </td>
+<td>@33018>0</td>
+<tr></table>
+
+<h5>Comentarios</h5>
+<p>Los comentarios vienen precedidos por el símbolo almohadilla (#) y son líneas explicativas que no tienen repercusión en el funcionamiento del driver. Su
+función es aclarar partes del documento o invalidar instrucciones que ya no deben ser usadas.<p>
+<h4>#Esto es un comentario<br>
+Variable;Read;513;1;Int16_ML;FF_FF;1;°C;AI27(1;1;continuous;-1;;;Off;-1;;;;;<-670;>3200;@33018>0 #Un comentario puesto tras una instrucción </h4>
+<h5>ACK</h5>
+<p>El ACK es la instrucción que sirve para el reconocimiento del dispositivo. El propósito de esta instrucción, que siempre debe ser la primera presente en el
+fichero del driver, es describir el método por el que la Compact Touch o el TMS distingan el instrumento de acuerdo a una serie de características identificativas.
+Este reconocimiento se puede realizar de dos maneras: o bien mediante la función 43 de ModBus, o mediante la función 3, leyendo un registro concreto cuyo
+valor sea fijo y permita identificar adecuadamente al dispositivo.</p>
+
+<p>Con el comando 43:<p>
+
+<table>
+	<tr>
+		<th>Recurso</th>
+		<th>Comando</th>
+		<th>Direccion</th>
+		<th>Word</th>
+		<th>Conversión</th>
+		<th>Máscara</th>
+		<th></th><!--cuadro en blanco-->
+		<th></th><!--cuadro en blanco-->
+		<th>ACK</th>
+		<th>Valor</th>
+		<th>MAXW</th>
+		<th>Max. peticiones</th>
+	</tr>
+	<tr>
+		<td>Variable</td>
+		<td>43_04_02</td>
+		<td>16</td>
+		<td>11</td>
+		<td>4</td>
+		<td>FF_FF</td>
+		<td></td><!--cuadro en blanco-->
+		<td></td><!--cuadro en blanco-->
+		<td>ACK43</td>
+		<td>01FD</td>
+		<td>MAXW</td>
+		<td>100</td>
+	</tr>
+</table>
+
